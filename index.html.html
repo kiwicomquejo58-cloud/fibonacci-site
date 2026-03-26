@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sequência de Fibonacci</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: linear-gradient(135deg, #f8fbff, #dbeafe);
+      color: #0f172a;
+      padding: 12px;
+    }
+
+    .page {
+      max-width: 950px;
+      margin: auto;
+    }
+
+    .card {
+      background: white;
+      border-radius: 18px;
+      padding: 18px;
+      margin-bottom: 14px;
+      box-shadow: 0 8px 22px rgba(0, 0, 0, 0.08);
+      opacity: 0;
+      transform: translateY(14px);
+      animation: aparecer 0.6s ease forwards;
+    }
+
+    .card:nth-child(1) { animation-delay: 0.08s; }
+    .card:nth-child(2) { animation-delay: 0.18s; }
+    .card:nth-child(3) { animation-delay: 0.28s; }
+    .card:nth-child(4) { animation-delay: 0.38s; }
+
+    @keyframes aparecer {
+      from {
+        opacity: 0;
+        transform: translateY(14px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 28px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 22px;
+    }
+
+    p {
+      margin: 0 0 10px;
+      line-height: 1.6;
+      color: #334155;
+      font-size: 15px;
+    }
+
+    .highlight {
+      color: #2563eb;
+      font-weight: bold;
+    }
+
+    input {
+      width: 100%;
+      padding: 13px;
+      border-radius: 12px;
+      border: 1px solid #cbd5e1;
+      margin-top: 8px;
+      font-size: 15px;
+      outline: none;
+      transition: 0.2s;
+    }
+
+    input:focus {
+      border-color: #60a5fa;
+      box-shadow: 0 0 0 4px rgba(96, 165, 250, 0.16);
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    button {
+      width: 100%;
+      padding: 13px;
+      border: none;
+      border-radius: 12px;
+      background: #2563eb;
+      color: white;
+      font-weight: bold;
+      font-size: 15px;
+      cursor: pointer;
+      transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.22);
+    }
+
+    button:hover {
+      transform: translateY(-1px) scale(1.01);
+      box-shadow: 0 12px 24px rgba(37, 99, 235, 0.28);
+      background: #1d4ed8;
+    }
+
+    button:active {
+      transform: scale(0.98);
+    }
+
+    .secondary {
+      background: #0f172a;
+      box-shadow: 0 8px 18px rgba(15, 23, 42, 0.2);
+    }
+
+    .secondary:hover {
+      background: #1e293b;
+      box-shadow: 0 12px 24px rgba(15, 23, 42, 0.26);
+    }
+
+    .error {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: #fff1f2;
+      border: 1px solid #fecdd3;
+      color: #be123c;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .term-box {
+      display: none;
+      margin-top: 12px;
+      padding: 12px;
+      background: #eff6ff;
+      border: 1px solid #bfdbfe;
+      color: #1e3a8a;
+      border-radius: 12px;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .output {
+      margin-top: 12px;
+      padding: 16px;
+      min-height: 80px;
+      background: linear-gradient(135deg, #f8fbff, #edf5ff);
+      border: 1px solid #dbeafe;
+      border-radius: 14px;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 22px;
+      line-height: 2;
+      letter-spacing: 1px;
+      word-break: break-word;
+      transition: 0.2s;
+    }
+
+    .output.animar {
+      animation: brilho 0.35s ease;
+    }
+
+    @keyframes brilho {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
+
+    .code {
+      background: #0f172a;
+      color: #e2e8f0;
+      padding: 12px;
+      border-radius: 12px;
+      font-family: monospace;
+      font-size: 12px;
+      white-space: pre-wrap;
+      margin: 10px 0 8px;
+      overflow-x: auto;
+    }
+
+    .mini-box {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 14px;
+      padding: 12px;
+      margin-bottom: 10px;
+    }
+
+    @media (max-width: 700px) {
+      body {
+        padding: 10px;
+      }
+
+      .card {
+        padding: 15px;
+      }
+
+      h1 {
+        font-size: 24px;
+      }
+
+      h2 {
+        font-size: 20px;
+      }
+
+      .buttons {
+        grid-template-columns: 1fr;
+      }
+
+      .output {
+        font-size: 19px;
+        line-height: 1.9;
+      }
+
+      .code {
+        font-size: 11px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="page">
+
+    <div class="card">
+      <h1>Sequência de Fibonacci</h1>
+      <p>
+        A sequência de Fibonacci é uma
+        <span class="highlight">sucessão por recorrência</span>,
+        em que cada termo resulta da soma dos dois anteriores.
+      </p>
+      <p><strong>Exemplo:</strong> 1, 1, 2, 3, 5, 8, 13...</p>
+    </div>
+
+    <div class="card">
+      <h2>Para que serve o programa</h2>
+      <p>
+        Este programa serve para gerar automaticamente a sequência de Fibonacci
+        a partir do número de termos escolhido.
+      </p>
+      <p>
+        Assim, conseguimos visualizar rapidamente os valores da sequência
+        e perceber melhor como funciona esta sucessão por recorrência.
+      </p>
+    </div>
+
+    <div class="card">
+      <h2>Programa</h2>
+
+      <input type="number" id="num" placeholder="Ex.: 10" min="1">
+
+      <div class="buttons">
+        <button onclick="calcular()">Calcular</button>
+        <button class="secondary" onclick="limparTudo()">Limpar</button>
+      </div>
+
+      <div id="erro" class="error"></div>
+      <div id="termoN" class="term-box"></div>
+      <div id="resultado" class="output"></div>
+    </div>
+
+    <div class="card">
+      <h2>Explicação do código</h2>
+
+      <div class="mini-box">
+        <div class="code">n = int(input("Quantos termos? "))</div>
+        <p>Pede ao utilizador o número de termos e converte esse valor para inteiro.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">a = 1
+b = 1</div>
+        <p>Define os dois primeiros termos da sequência.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">print(a)
+print(b)</div>
+        <p>Mostra os dois primeiros valores da sequência.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">for i in range(n - 2):</div>
+        <p>Cria um ciclo que repete o processo para calcular os restantes termos.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">c = a + b</div>
+        <p>Calcula o próximo termo somando os dois anteriores.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">print(c)</div>
+        <p>Mostra o novo valor calculado.</p>
+      </div>
+
+      <div class="mini-box">
+        <div class="code">a = b
+b = c</div>
+        <p>Atualiza os valores para continuar o processo nas repetições seguintes.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Conclusão</h2>
+      <p>
+        Este programa permite compreender de forma simples como funciona a sequência
+        de Fibonacci e como a programação pode ajudar a representar conceitos matemáticos.
+      </p>
+    </div>
+
+  </div>
+
+  <script>
+    let intervaloAtual = null;
+
+    function mostrarErro(mensagem) {
+      const erro = document.getElementById("erro");
+      erro.style.display = "block";
+      erro.innerText = mensagem;
+    }
+
+    function esconderErro() {
+      const erro = document.getElementById("erro");
+      erro.style.display = "none";
+      erro.innerText = "";
+    }
+
+    function limparTudo() {
+      if (intervaloAtual) {
+        clearInterval(intervaloAtual);
+      }
+
+      document.getElementById("num").value = "";
+      document.getElementById("resultado").innerText = "";
+      document.getElementById("termoN").style.display = "none";
+      document.getElementById("termoN").innerText = "";
+      esconderErro();
+    }
+
+    function calcular() {
+      if (intervaloAtual) {
+        clearInterval(intervaloAtual);
+      }
+
+      const n = parseInt(document.getElementById("num").value);
+      const resultado = document.getElementById("resultado");
+      const termoN = document.getElementById("termoN");
+
+      esconderErro();
+      resultado.innerText = "";
+      termoN.style.display = "none";
+      termoN.innerText = "";
+
+      if (isNaN(n) || n <= 0) {
+        mostrarErro("Insere um número inteiro maior do que 0.");
+        return;
+      }
+
+      let a = 1;
+      let b = 1;
+      let valores = [];
+
+      if (n >= 1) valores.push(a);
+      if (n >= 2) valores.push(b);
+
+      for (let i = 0; i < n - 2; i++) {
+        let c = a + b;
+        valores.push(c);
+        a = b;
+        b = c;
+      }
+
+      let indice = 0;
+
+      resultado.classList.remove("animar");
+      void resultado.offsetWidth;
+      resultado.classList.add("animar");
+
+      intervaloAtual = setInterval(() => {
+        if (indice >= valores.length) {
+          clearInterval(intervaloAtual);
+          termoN.style.display = "block";
+          termoN.innerHTML = "<strong>Termo " + n + ":</strong> " + valores[valores.length - 1];
+          return;
+        }
+
+        if (indice === 0) {
+          resultado.innerText = valores[indice];
+        } else {
+          resultado.innerText += "  " + valores[indice];
+        }
+
+        indice++;
+      }, 140);
+    }
+  </script>
+
+</body>
+</html>
